@@ -629,3 +629,9 @@ combined_truck_df.to_csv(path_or_buf=combined_truck_df_csv_path, header=['contri
     #6)Start storing dataset in SQL/Postgres to add new info to old more easily
     #7)Analyze!
 
+#Use pandas to filter to only food trucks where their oldest of the most recent 20 tweets occurred in 2016
+combined_truck_df['year']=combined_truck_df['created_at'].dt.year
+combined_truck_df_filter=combined_truck_df.groupby('username').filter(lambda x: min(x['year']) >= 2016)
+combined_truck_df_filter_csv_path = "/Users/nicolekelly/Documents/ft_aggregate/" + str(time.time()) + '_' + 'combined_truck_df_filter' +'.csv'
+combined_truck_df_filter.to_csv(path_or_buf=combined_truck_df_filter_csv_path, header=['contributors', 'coordinates', 'created_at', 'favorite_count', 'favorited', 'geo', 'id', 'in_reply_to_status_id', 'in_reply_to_user_id', 'is_quote_status', 'lang', 'place', 'retweet_count', 'retweeted', 'source', 'text', 'truncated', 'username', 'year'], index=True, sep=',')
+
